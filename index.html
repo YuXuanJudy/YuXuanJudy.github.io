@@ -1,258 +1,972 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人頁面</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="蘇鈺琁的個人網站，分享人工智慧、資料分析與推薦系統相關研究。"
+  >
+  <title>蘇鈺琁｜AI & Data Science</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --background: #f7f6f1;
+      --surface: #ffffff;
+      --primary: #214e46;
+      --primary-dark: #173b35;
+      --accent: #c9794f;
+      --text: #202725;
+      --muted: #65706d;
+      --line: #dfe4df;
+      --shadow: 0 20px 60px rgba(33, 78, 70, 0.10);
+      --radius-large: 28px;
+      --radius-medium: 18px;
+      --content-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      color: var(--text);
+      background:
+        radial-gradient(circle at 90% 10%, rgba(201, 121, 79, 0.12), transparent 26rem),
+        var(--background);
+      font-family:
+        "Noto Sans TC", Inter, "PingFang TC", "Microsoft JhengHei",
+        system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--content-width));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      border-bottom: 1px solid rgba(223, 228, 223, 0.8);
+      background: rgba(247, 246, 241, 0.88);
+      backdrop-filter: blur(16px);
+    }
+
+    .navbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.05rem;
+      font-weight: 750;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--primary);
+      font-family: Georgia, serif;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      position: relative;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 650;
+    }
+
+    .nav-links a::after {
+      position: absolute;
+      right: 0;
+      bottom: -8px;
+      left: 0;
+      height: 2px;
+      content: "";
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 180ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .menu-button {
+      width: 44px;
+      height: 44px;
+      display: none;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--primary);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: calc(100vh - 77px);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: clamp(48px, 7vw, 100px);
+      padding-block: 80px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 34px;
+      height: 2px;
+      content: "";
+      background: currentColor;
+    }
+
+    .hero h1 {
+      max-width: 720px;
+      margin-bottom: 24px;
+      color: var(--primary-dark);
+      font-family: Georgia, "Noto Serif TC", serif;
+      font-size: clamp(3.2rem, 7vw, 6.6rem);
+      font-weight: 500;
+      letter-spacing: -0.06em;
+      line-height: 0.98;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--accent);
+      font-size: 0.35em;
+      font-family:
+        "Noto Sans TC", Inter, "PingFang TC", "Microsoft JhengHei",
+        system-ui, sans-serif;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      line-height: 2;
+      text-transform: uppercase;
+    }
+
+    .hero-description {
+      max-width: 620px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.7vw, 1.16rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 23px;
+      border: 1px solid var(--primary);
+      border-radius: 999px;
+      font-size: 0.94rem;
+      font-weight: 750;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(33, 78, 70, 0.15);
+    }
+
+    .button-primary {
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .button-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .button-secondary {
+      color: var(--primary);
+      background: transparent;
+    }
+
+    .portrait-wrap {
+      position: relative;
+      max-width: 440px;
+      justify-self: end;
+    }
+
+    .portrait-wrap::before {
+      position: absolute;
+      z-index: -1;
+      top: -28px;
+      right: -28px;
+      width: 68%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      content: "";
+      background: rgba(201, 121, 79, 0.18);
+    }
+
+    .portrait-wrap::after {
+      position: absolute;
+      z-index: -1;
+      bottom: -20px;
+      left: -30px;
+      width: 44%;
+      aspect-ratio: 1;
+      border: 2px solid rgba(33, 78, 70, 0.18);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .portrait {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border: 10px solid rgba(255, 255, 255, 0.82);
+      border-radius: 220px 220px 40px 40px;
+      object-fit: cover;
+      object-position: center 28%;
+      box-shadow: var(--shadow);
+    }
+
+    .status-card {
+      position: absolute;
+      right: -34px;
+      bottom: 46px;
+      max-width: 210px;
+      padding: 18px 20px;
+      border: 1px solid rgba(223, 228, 223, 0.85);
+      border-radius: var(--radius-medium);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 16px 38px rgba(33, 78, 70, 0.14);
+      backdrop-filter: blur(12px);
+    }
+
+    .status-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    .status-card span {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .section {
+      padding-block: 110px;
+    }
+
+    .section-heading {
+      max-width: 650px;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+      font-family: Georgia, "Noto Serif TC", serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 500;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .about-copy p + p {
+      margin-top: 18px;
+    }
+
+    .about-copy p {
+      color: var(--muted);
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .fact {
+      min-height: 142px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-medium);
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .fact strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .skills-section {
+      background: var(--primary-dark);
+    }
+
+    .skills-section .section-label {
+      color: #eba27d;
+    }
+
+    .skills-section .section-heading h2 {
+      color: #fff;
+    }
+
+    .skills-section .section-heading p {
+      color: rgba(255, 255, 255, 0.66);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skill-card {
+      padding: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius-medium);
+      color: #fff;
+      background: rgba(255, 255, 255, 0.055);
+      transition:
+        transform 180ms ease,
+        background 180ms ease;
+    }
+
+    .skill-card:hover {
+      background: rgba(255, 255, 255, 0.09);
+      transform: translateY(-5px);
+    }
+
+    .card-number {
+      display: block;
+      margin-bottom: 42px;
+      color: #eba27d;
+      font-family: Georgia, serif;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .skill-card h3 {
+      margin-bottom: 12px;
+      font-size: 1.28rem;
+    }
+
+    .skill-card p {
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 0.92rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .project-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-medium);
+      background: var(--surface);
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .project-visual {
+      min-height: 210px;
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      background:
+        linear-gradient(135deg, rgba(33, 78, 70, 0.18), rgba(201, 121, 79, 0.20)),
+        var(--background);
+      font-family: Georgia, serif;
+      font-size: 3.4rem;
+    }
+
+    .project-card:nth-child(2) .project-visual {
+      background:
+        linear-gradient(135deg, rgba(201, 121, 79, 0.18), rgba(255, 255, 255, 0.3)),
+        #eadfd4;
+    }
+
+    .project-card:nth-child(3) .project-visual {
+      background:
+        linear-gradient(135deg, rgba(33, 78, 70, 0.22), rgba(255, 255, 255, 0.18)),
+        #dce5df;
+    }
+
+    .project-content {
+      padding: 26px;
+    }
+
+    .project-tags {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .project-content h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .project-content p {
+      min-height: 76px;
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .project-link {
+      color: var(--primary);
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+    }
+
+    .contact-panel {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 30px;
+      padding: clamp(36px, 6vw, 70px);
+      border-radius: var(--radius-large);
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .contact-panel h2 {
+      max-width: 700px;
+      margin-bottom: 14px;
+      font-family: Georgia, "Noto Serif TC", serif;
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.12;
+    }
+
+    .contact-panel p {
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .contact-panel .button {
+      border-color: #fff;
+      color: var(--primary);
+      background: #fff;
+      white-space: nowrap;
+    }
+
+    .site-footer {
+      padding-block: 34px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 22px;
+      list-style: none;
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        padding-block: 70px 100px;
+      }
+
+      .portrait-wrap {
+        width: min(100%, 480px);
+        justify-self: center;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .card-grid,
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-content p {
+        min-height: auto;
+      }
+
+      .contact-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-panel .button {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        width: min(calc(100% - 30px), var(--content-width));
+      }
+
+      .menu-button {
+        display: grid;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 77px;
+        right: 15px;
+        left: 15px;
+        display: none;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.is-open {
+        display: block;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 13px 14px;
+        border-radius: 10px;
+      }
+
+      .nav-links a:hover {
+        background: var(--background);
+      }
+
+      .nav-links a::after {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 18vw, 5rem);
+      }
+
+      .status-card {
+        right: -5px;
+        bottom: 24px;
+      }
+
+      .section {
+        padding-block: 80px;
+      }
+
+      .facts {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <nav class="fixed top-0 left-0 h-screen w-[16%] p-5 bg-gray-200">
-        <div class="relative flex flex-col gap-10">
-            <section class="mt-10 w-full flex flex-col gap-4 items-center">
-                <img src="img/personal_image.jpg" 
-                alt="大頭貼" class="w-20 h-auto rounded-full">
-                <h2 class="font-bold text-x1">國立台灣大學研究生</h2>
-                    <ul class="flex flex-row gap-4">
-                        <li>
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/YuXuanJudy" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/yu-xuan-su-164509201" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-linkedin"></i>
-                            </a>
-                        </li>
-                    </ul>
-            </section>
-            <section class="p-4">
-                <ul class="m1-[8%] flex flex-col gap-8">
-                    <li><a href="index.html"><i class="fa-solid fa-home mr-4"></i>Home</a>
-                    </li>
-                    <li><a href="about.html"><i class="fa-solid fa-user mr-4"></i>About</a>
-                    </li>
-                    <li><a href="contact.html"><i class="fa-solid fa-phone mr-4"></i>Contact</a>
-                    </li>
-                </ul>
-            </section>
-        </div>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="主要選單">
+      <a class="brand" href="#home" aria-label="回到首頁">
+        <span class="brand-mark" aria-hidden="true">Y</span>
+        <span>Yu-Xuan Su</span>
+      </a>
+
+      <button
+        class="menu-button"
+        type="button"
+        aria-label="開啟選單"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home">首頁</a></li>
+        <li><a href="#about">關於我</a></li>
+        <li><a href="#skills">研究領域</a></li>
+        <li><a href="#projects">作品</a></li>
+        <li><a href="#contact">聯絡我</a></li>
+      </ul>
     </nav>
+  </header>
 
-    <main class="relative left-[16%] w-[84%] h-screen">
-        <section id="Home" class="flex justify-center h-screen">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe1os-9Wug_aGv11j-btygP3ln9LceXkjHbg&s" alt="背景圖片" class="w-full h-auto object-cover object-center">
-            <div class="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]">
-                <div class="relative w-full flex-col gap-2 items-center">
-                    <h1>研究生</h1>
-                    <p class="text-2xl text-white">儘管孤單我還是能享受獨處</p>
-                </div>
-            </div>
-        </section>
-        <section id="About">
-            <style>
-                #About {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 40px; /*增加左右區塊間的間距*/
-                    align-items: flex-start;
-                    margin: 20px 0; /*上下空間*/
-                }
-                #About .info {
-                    flex: 1;
-                    min-width: 300px;
-                }
-                #About .info img {
-                    display: block;
-                    margin: 0 auto 20px;
-                    width: 150px;
-                    height: 150px;
-                    border-radius: 50%;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-                #About .info h1 {
-                    text-align: center;
-                    font-size: 2rem;
-                    color: #4CAF50;
-                    margin-bottom: 10px;
-                }
-                #About .info p {
-                    text-align: center;
-                    font-size: 1.2rem;
-                    color: #666;
-                    margin-bottom: 20px;
-                }
-                #About table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    font-size: 1rem;
-                }
-                #About table th, #About table td {
-                    padding: 10px;
-                    border: 1px solid #ddd;
-                    text-align: left;
-                }
-                #About table th {
-                    background-color: #4CAF50;
-                    color: #fff;
-                }
-                #About table tr:nth-child(even) {
-                    background-color: #f9f9f9;
-                }
-                #About .video {
-                    flex: 1;
-                    min-width: 300px;
-                }
-                #About iframe {
-                    width: 100%;
-                    max-width: 560px;
-                    height: 315px;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-            </style>
-            <div class="info">
-                <!-- <img src="data:image/jpeg;base64,/9j/4AAQSkZ..." alt="蘇鈺琁的照片"> -->
-                <h1>About me</h1>
-                <!-- <p>自我介紹</p> -->
-                <table>
-                    <thead>
-                        <tr>
-                            <th>項目</th>
-                            <th>內容</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>學歷</td>
-                            <td>國立中央大學 數學系</td>
-                        </tr>
-                        <tr>
-                            <td>專業技能</td>
-                            <td>Python、資料分析、人工智慧</td>
-                        </tr>
-                        <tr>
-                            <td>興趣</td>
-                            <td>運動、追劇、看球賽</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="video">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/Zp-Jhuhq0bQ?si=N9NegbDP8EdiUXIj" 
-                title="YouTube video player"
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-            </iframe>
-            </div>
-        </section>           
+  <main>
+    <section class="hero container" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">AI & Data Science</p>
+        <h1>
+          蘇鈺琁
+          <span>Research · Explore · Create</span>
+        </h1>
+        <p class="hero-description">
+          我是國立臺灣大學研究生，關注人工智慧、資料分析與推薦系統。
+          喜歡從資料中理解問題，並將研究想法轉化成能真正使用的解決方案。
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#about">
+            認識我
+            <span aria-hidden="true">↓</span>
+          </a>
+          <a
+            class="button button-secondary"
+            href="https://github.com/YuXuanJudy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            查看 GitHub
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
 
-        <section id="Contact">
-            <style>
-                #Contact {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 40px; /* 增加左右區塊間的間距 */
-                    align-items: flex-start;
-                    margin: 20px 0; /* 上下空間 */
-                }
-                #Contact .info, #Contact .map {
-                    flex: 1;
-                    min-width: 300px;
-                }
-                #Contact .info {
-                    text-align: center; /* 置中對齊文字 */
-                }
-                #Contact h1 {
-                    font-size: 2rem;
-                    color: #4CAF50;
-                    margin-bottom: 20px;
-                }
-                #Contact ul {
-                    padding: 0;
-                    list-style: none;
-                    font-size: 1.2rem;
-                    color: #666;
-                }
-                #Contact ul li {
-                    margin-bottom: 10px;
-                }
-                #Contact ul li span {
-                    font-weight: bold;
-                }
-                #Contact iframe {
-                    width: 100%;
-                    max-width: 560px;
-                    height: 315px;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-            </style>
-            <div class="info">
-                <h1>聯絡資訊</h1>
-                <ul>
-                    <li><span>電話:</span> +886-989352306</li>
-                    <li><span>電子郵件:</span> judy910619@gmail.com</li>
-                    <li><span>地址:</span> 新北市新店區大新街7巷22號1樓</li>
-                    <li><span>網站:</span> <a href="file:///C:/Users/user/Documents/Web/personal.html" target="_blank" class="text-blue-500 hover:underline">個人網站</a></li>
-                </ul>
-            </div>
-            <div class="map">
-                <h1>地圖位置</h1>
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.915882808984!2d121.53975261531772!3d24.963154983997407!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346ef326ce3d12bd%3A0x9ac9d375b2d7eaf4!2z5Z-U5aSn5biC!5e0!3m2!1szh-TW!2stw!4v1679323193143!5m2!1szh-TW!2stw" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-        </section>
-        <section>               
-            <!-- 聯絡我們 -->
-            <h1 class="text-3xl font-bold text-green-600 mt-10 mb-6 text-center">聯絡我們</h1>
-            <form action="action_page.php" method="post" class="space-y-6">
-                <div class="flex flex-col">
-                    <label for="name" class="font-semibold text-gray-700">姓名:</label>
-                    <input type="text" name="name" id="name" placeholder="請輸入您的姓名" 
-                           class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                           required>
-                </div>
-                <div class="flex flex-col">
-                    <label for="email" class="font-semibold text-gray-700">電子郵件:</label>
-                    <input type="email" name="email" id="email" placeholder="請輸入您的電子郵件" 
-                           class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                           required>
-                </div>
-                <div class="flex flex-col">
-                    <label for="phone" class="font-semibold text-gray-700">電話:</label>
-                    <input type="tel" name="phone" id="phone" placeholder="請輸入您的電話" 
-                           class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div class="flex flex-col">
-                    <label for="message" class="font-semibold text-gray-700">留言內容:</label>
-                    <textarea name="message" id="message" rows="5" placeholder="請輸入您的留言" 
-                              class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                              required></textarea>
-                </div>
-                <button type="submit" 
-                        class="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    提交
-                </button>
-            </form>
-        </section>
-               
-    </main>
+      <div class="portrait-wrap">
+        <img
+          class="portrait"
+          src="img/personal_image.jpg"
+          alt="蘇鈺琁的個人照片"
+          width="720"
+          height="900"
+        >
+        <div class="status-card">
+          <strong>NTU Graduate Student</strong>
+          <span>持續探索 AI 與推薦系統</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="about">
+      <div class="about-grid">
+        <div>
+          <div class="section-heading">
+            <span class="section-label">About me</span>
+            <h2>用資料理解世界，用技術解決問題。</h2>
+          </div>
+          <div class="about-copy">
+            <p>
+              我畢業於國立中央大學數學系，目前就讀於國立臺灣大學。
+              數學訓練讓我重視邏輯與驗證，也讓我開始對資料背後的規律產生興趣。
+            </p>
+            <p>
+              研究之外，我喜歡運動、追劇與看球賽。這些興趣讓我在專注工作之餘，
+              仍能保有觀察生活與探索新事物的好奇心。
+            </p>
+          </div>
+        </div>
+
+        <div class="facts" aria-label="個人資訊摘要">
+          <article class="fact">
+            <strong>NTU</strong>
+            <span>國立臺灣大學研究生</span>
+          </article>
+          <article class="fact">
+            <strong>NCU</strong>
+            <span>國立中央大學數學系</span>
+          </article>
+          <article class="fact">
+            <strong>Python</strong>
+            <span>資料處理與模型開發</span>
+          </article>
+          <article class="fact">
+            <strong>Curious</strong>
+            <span>樂於學習與探索問題</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section skills-section" id="skills">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-label">Research interests</span>
+          <h2>目前關注的研究與技術領域</h2>
+          <p>從資料處理、模型建立到結果分析，探索更貼近使用者需求的方法。</p>
+        </div>
+
+        <div class="card-grid">
+          <article class="skill-card">
+            <span class="card-number">01</span>
+            <h3>人工智慧</h3>
+            <p>運用機器學習與深度學習方法，從資料中建立能夠預測、分類與生成的模型。</p>
+          </article>
+          <article class="skill-card">
+            <span class="card-number">02</span>
+            <h3>資料分析</h3>
+            <p>透過 Python 進行資料整理、探索與視覺化，將複雜資訊轉化成可理解的洞察。</p>
+          </article>
+          <article class="skill-card">
+            <span class="card-number">03</span>
+            <h3>推薦系統</h3>
+            <p>研究使用者偏好與內容特徵，並探索語言模型在個人化推薦任務中的應用。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="projects">
+      <div class="section-heading">
+        <span class="section-label">Selected work</span>
+        <h2>研究與作品</h2>
+        <p>以下內容可以替換成你的論文、課程專題或 GitHub 專案。</p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card">
+          <div class="project-visual" aria-hidden="true">R</div>
+          <div class="project-content">
+            <p class="project-tags">Recommendation · LLM</p>
+            <h3>推薦系統研究</h3>
+            <p>探索語言模型與推理方法如何改善個人化推薦的品質與可解釋性。</p>
+            <a
+              class="project-link"
+              href="https://github.com/YuXuanJudy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              查看專案 ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-visual" aria-hidden="true">D</div>
+          <div class="project-content">
+            <p class="project-tags">Python · Analysis</p>
+            <h3>資料分析專案</h3>
+            <p>使用 Python 進行資料前處理、統計分析與視覺化，從資料中提取關鍵洞察。</p>
+            <a
+              class="project-link"
+              href="https://github.com/YuXuanJudy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              查看專案 ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-visual" aria-hidden="true">W</div>
+          <div class="project-content">
+            <p class="project-tags">HTML · CSS · Web</p>
+            <h3>個人作品網站</h3>
+            <p>以響應式網頁設計整理研究方向、技術能力與個人作品。</p>
+            <a
+              class="project-link"
+              href="https://github.com/YuXuanJudy/YuXuanJudy.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              查看原始碼 ↗
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section container" id="contact">
+      <div class="contact-panel">
+        <div>
+          <h2>有研究想法或合作機會嗎？</h2>
+          <p>歡迎透過 Email 與我聯絡，我會盡快回覆你的訊息。</p>
+        </div>
+        <a class="button" href="mailto:judy910619@gmail.com">
+          寄 Email 給我
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner container">
+      <p>© <span id="current-year"></span> Yu-Xuan Su. All rights reserved.</p>
+      <ul class="social-links" aria-label="社群連結">
+        <li>
+          <a
+            href="https://github.com/YuXuanJudy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/yu-xuan-su-164509201"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
+          </a>
+        </li>
+        <li><a href="mailto:judy910619@gmail.com">Email</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector(".menu-button");
+    const navLinks = document.querySelector("#nav-links");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("is-open");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute("aria-label", isOpen ? "關閉選單" : "開啟選單");
+    });
+
+    navLinks.addEventListener("click", (event) => {
+      if (event.target.matches("a")) {
+        navLinks.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "開啟選單");
+      }
+    });
+
+    document.querySelector("#current-year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
